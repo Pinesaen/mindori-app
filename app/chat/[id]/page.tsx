@@ -41,8 +41,8 @@ export default function ChatPage({ params }: { params: Promise<{ id: string }> }
     year: "3rd Year",
     university: "Seoul National University",
     major: "Computer Science",
-    avatar: "/placeholder.svg",
-    universityLogo: "/placeholder.svg",
+    avatar: "/images/Mentor1.jpg",
+    universityLogo: "/images/snu-logo.png",
   }
 
   return (
