@@ -110,9 +110,9 @@ export default function ChatPage({ params }: { params: Promise<{ id: string }> }
         </div>
       </header>
 
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col overflow-hidden">
         <ScrollArea className="flex-1 p-4">
-          <div className="space-y-4">
+          <div className="space-y-4 pb-4">
             {messages.length === 0 && (
               <div className="text-center text-gray-500 py-8">
                 Start a new conversation with {mentor.name}
@@ -145,8 +145,8 @@ export default function ChatPage({ params }: { params: Promise<{ id: string }> }
           </div>
         </ScrollArea>
 
-        <form onSubmit={handleSendMessage} className="p-4 bg-white border-t">
-          <div className="flex space-x-2">
+        <div className="p-4 bg-white border-t">
+          <form onSubmit={handleSendMessage} className="flex space-x-2">
             <Input
               type="text"
               placeholder="Type your message..."
@@ -155,8 +155,8 @@ export default function ChatPage({ params }: { params: Promise<{ id: string }> }
               className="flex-1"
             />
             <Button type="submit">Send</Button>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
 
       <NavigationBar />
