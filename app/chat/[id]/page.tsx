@@ -88,8 +88,8 @@ export default function ChatPage({ params }: { params: Promise<{ id: string }> }
   }
 
   return (
-    <div className="flex flex-col h-screen bg-gray-50">
-      <header className="p-4 bg-white border-b">
+    <div className="flex flex-col h-[calc(100vh-4rem)]">
+      <header className="p-4 bg-white border-b sticky top-0 z-10">
         <div className="flex items-center space-x-4">
           <Link href="/chat">
             <Button variant="ghost" size="icon">
@@ -110,9 +110,9 @@ export default function ChatPage({ params }: { params: Promise<{ id: string }> }
         </div>
       </header>
 
-      <div className="flex-1 flex flex-col overflow-hidden">
-        <ScrollArea className="flex-1 p-4">
-          <div className="space-y-4 pb-4">
+      <div className="flex-1 overflow-hidden">
+        <ScrollArea className="h-full">
+          <div className="p-4 space-y-4">
             {messages.length === 0 && (
               <div className="text-center text-gray-500 py-8">
                 Start a new conversation with {mentor.name}
@@ -144,19 +144,19 @@ export default function ChatPage({ params }: { params: Promise<{ id: string }> }
             ))}
           </div>
         </ScrollArea>
+      </div>
 
-        <div className="p-4 bg-white border-t">
-          <form onSubmit={handleSendMessage} className="flex space-x-2">
-            <Input
-              type="text"
-              placeholder="Type your message..."
-              value={newMessage}
-              onChange={(e) => setNewMessage(e.target.value)}
-              className="flex-1"
-            />
-            <Button type="submit">Send</Button>
-          </form>
-        </div>
+      <div className="p-4 bg-white border-t sticky bottom-0 z-10">
+        <form onSubmit={handleSendMessage} className="flex space-x-2">
+          <Input
+            type="text"
+            placeholder="Type your message..."
+            value={newMessage}
+            onChange={(e) => setNewMessage(e.target.value)}
+            className="flex-1"
+          />
+          <Button type="submit">Send</Button>
+        </form>
       </div>
 
       <NavigationBar />
