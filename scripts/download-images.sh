@@ -33,4 +33,5 @@ curl -o public/images/yonsei-campus.jpg "https://images.unsplash.com/photo-15230
 curl -o public/images/kaist-campus.jpg "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&h=600&fit=crop"
 curl -o public/images/korea-campus.jpg "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&h=600&fit=crop"
 curl -o public/images/study-session.jpg "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&h=600&fit=crop"
-curl -o public/images/application-guide.jpg "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&h=600&fit=crop" 
+curl -o public/images/application-guide.jpg "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&h=600&fit=crop"
+curl -o public/images/university-campus.jpg "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&h=600&fit=crop" 
