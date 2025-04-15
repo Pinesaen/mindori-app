@@ -1,118 +1,117 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { NavigationBar } from "@/components/navigation-bar"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Input } from "@/components/ui/input"
-import { Send, ArrowLeft } from "lucide-react"
-import Link from "next/link"
-import Image from "next/image"
 import { use } from "react"
+import { useRouter } from "next/navigation"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { ScrollArea } from "@/components/ui/scroll-area"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { NavigationBar } from "@/components/navigation-bar"
+import { generateAIResponse } from "@/utils/ai-response"
+import { useState, useEffect } from "react"
 
-// Mock messages data
-const messages = [
-  {
-    id: 1,
-    sender: "mentor",
-    content: "Hello! How can I help you today?",
-    timestamp: "10:30 AM",
-  },
-  {
-    id: 2,
-    sender: "student",
-    content: "Hi! I need help with my math homework.",
-    timestamp: "10:32 AM",
-  },
-  {
-    id: 3,
-    sender: "mentor",
-    content: "Of course! What specific topic are you working on?",
-    timestamp: "10:33 AM",
-  },
-]
+interface Message {
+  id: string
+  text: string
+  sender: "user" | "mentor"
+  timestamp: Date
+}
 
 export default function ChatPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params)
-  
-  const mentor = {
-    id: id,
-    name: "Min-Ji Kim",
-    year: "3rd Year",
-    university: "Seoul National University",
-    major: "Computer Science",
-    avatar: "/images/Mentor1.jpg",
-    universityLogo: "/images/snu-logo.png",
+  const router = useRouter()
+  const [messages, setMessages] = useState<Message[]>([])
+  const [newMessage, setNewMessage] = useState("")
+  const [userName, setUserName] = useState("")
+
+  useEffect(() => {
+    const name = localStorage.getItem("userName")
+    if (!name) {
+      router.push("/")
+      return
+    }
+    setUserName(name)
+  }, [router])
+
+  const handleSendMessage = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!newMessage.trim()) return
+
+    // Add user message
+    const userMessage: Message = {
+      id: Date.now().toString(),
+      text: newMessage,
+      sender: "user",
+      timestamp: new Date(),
+    }
+    setMessages((prev) => [...prev, userMessage])
+    setNewMessage("")
+
+    // Generate and add AI response after a short delay
+    setTimeout(() => {
+      const aiResponse: Message = {
+        id: (Date.now() + 1).toString(),
+        text: generateAIResponse(id, newMessage),
+        sender: "mentor",
+        timestamp: new Date(),
+      }
+      setMessages((prev) => [...prev, aiResponse])
+    }, 1000)
+  }
+
+  if (!userName) {
+    return null
   }
 
   return (
     <div className="flex flex-col h-screen bg-gray-50">
       <header className="p-4 bg-white border-b">
-        <div className="flex items-center space-x-4">
-          <Link href="/chat">
-            <Button variant="ghost" size="icon">
-              <ArrowLeft className="h-5 w-5" />
-            </Button>
-          </Link>
-          <div className="flex items-center space-x-3">
-            <div className="relative">
-              <Avatar className="h-10 w-10">
-                <AvatarImage src={mentor.avatar} />
-                <AvatarFallback>{mentor.name.substring(0, 2)}</AvatarFallback>
-              </Avatar>
-              <div className="absolute -bottom-1 -right-1 bg-white rounded-full p-1 shadow-sm">
-                <Image
-                  src={mentor.universityLogo}
-                  alt={`${mentor.university} logo`}
-                  width={16}
-                  height={16}
-                  className="rounded-full"
-                />
-              </div>
-            </div>
-            <div>
-              <h2 className="font-semibold">{mentor.name}</h2>
-              <p className="text-sm text-gray-500">{mentor.year} • {mentor.major}</p>
-            </div>
-          </div>
-        </div>
+        <h1 className="text-2xl font-bold text-blue-700">Chat</h1>
       </header>
 
-      <main className="flex-1 p-4 space-y-4 overflow-auto">
+      <ScrollArea className="flex-1 p-4">
         <div className="space-y-4">
           {messages.map((message) => (
             <div
               key={message.id}
-              className={`flex ${message.sender === "student" ? "justify-end" : "justify-start"}`}
+              className={`flex ${
+                message.sender === "user" ? "justify-end" : "justify-start"
+              }`}
             >
               <div
-                className={`max-w-[70%] rounded-lg p-3 ${
-                  message.sender === "student"
+                className={`max-w-[80%] rounded-lg p-3 ${
+                  message.sender === "user"
                     ? "bg-blue-600 text-white"
                     : "bg-white text-gray-900"
                 }`}
               >
-                <p className="text-sm">{message.content}</p>
-                <p className="text-xs mt-1 opacity-70">{message.timestamp}</p>
+                <p>{message.text}</p>
+                <span className="text-xs opacity-70 mt-1 block">
+                  {message.timestamp.toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </span>
               </div>
             </div>
           ))}
         </div>
-      </main>
+      </ScrollArea>
 
-      <footer className="p-4 bg-white border-t">
-        <div className="flex items-center space-x-2">
+      <form onSubmit={handleSendMessage} className="p-4 bg-white border-t">
+        <div className="flex space-x-2">
           <Input
+            type="text"
             placeholder="Type your message..."
+            value={newMessage}
+            onChange={(e) => setNewMessage(e.target.value)}
             className="flex-1"
           />
-          <Button size="icon">
-            <Send className="h-4 w-4" />
-          </Button>
+          <Button type="submit">Send</Button>
         </div>
-      </footer>
+      </form>
 
-      <NavigationBar activeTab="chat" />
+      <NavigationBar />
     </div>
   )
 }
