@@ -9,6 +9,8 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { NavigationBar } from "@/components/navigation-bar"
 import { generateAIResponse } from "@/utils/ai-response"
 import { useState, useEffect } from "react"
+import Link from "next/link"
+import { ArrowLeft } from "lucide-react"
 
 interface Message {
   id: string
@@ -17,12 +19,34 @@ interface Message {
   timestamp: Date
 }
 
+const mentors = {
+  "1": {
+    name: "Min-Ji Kim",
+    university: "Seoul National University",
+    major: "Computer Science",
+    year: "3rd Year",
+  },
+  "2": {
+    name: "Soo-Min Lee",
+    university: "Yonsei University",
+    major: "English Literature",
+    year: "2nd Year",
+  },
+  "3": {
+    name: "Min-Seok Kim",
+    university: "KAIST",
+    major: "Computer Science",
+    year: "4th Year",
+  },
+}
+
 export default function ChatPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params)
   const router = useRouter()
   const [messages, setMessages] = useState<Message[]>([])
   const [newMessage, setNewMessage] = useState("")
   const [userName, setUserName] = useState("")
+  const mentor = mentors[id as keyof typeof mentors]
 
   useEffect(() => {
     const name = localStorage.getItem("userName")
@@ -59,18 +83,40 @@ export default function ChatPage({ params }: { params: Promise<{ id: string }> }
     }, 1000)
   }
 
-  if (!userName) {
+  if (!userName || !mentor) {
     return null
   }
 
   return (
     <div className="flex flex-col h-screen bg-gray-50">
       <header className="p-4 bg-white border-b">
-        <h1 className="text-2xl font-bold text-blue-700">Chat</h1>
+        <div className="flex items-center space-x-4">
+          <Link href="/chat">
+            <Button variant="ghost" size="icon">
+              <ArrowLeft className="h-5 w-5" />
+            </Button>
+          </Link>
+          <div className="flex items-center space-x-3">
+            <Avatar>
+              <AvatarFallback className="bg-blue-100 text-blue-700">
+                {mentor.name.substring(0, 2).toUpperCase()}
+              </AvatarFallback>
+            </Avatar>
+            <div>
+              <h2 className="font-semibold">{mentor.name}</h2>
+              <p className="text-sm text-gray-500">{mentor.year} • {mentor.major}</p>
+            </div>
+          </div>
+        </div>
       </header>
 
       <ScrollArea className="flex-1 p-4">
         <div className="space-y-4">
+          {messages.length === 0 && (
+            <div className="text-center text-gray-500 py-8">
+              Start a new conversation with {mentor.name}
+            </div>
+          )}
           {messages.map((message) => (
             <div
               key={message.id}
