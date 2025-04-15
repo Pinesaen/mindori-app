@@ -9,7 +9,7 @@ export default function ProfilesPage() {
   const userProfile = {
     name: "Ji-Woo Park",
     email: "jiwoo.park@example.com",
-    avatar: "/images/student.jpg",
+    avatar: "/images/Student.jpg",
     school: "Seoul International High School",
     schoolLogo: "/images/school-logo.png",
     grade: "12th Grade",
@@ -25,7 +25,7 @@ export default function ProfilesPage() {
       {
         id: 1,
         mentor: "Min-Ji Kim",
-        mentorAvatar: "/images/mentor1.jpg",
+        mentorAvatar: "/images/Mentor1.jpg",
         subject: "Mathematics",
         date: "2024-04-20",
         time: "3:00 PM",
@@ -33,7 +33,7 @@ export default function ProfilesPage() {
       {
         id: 2,
         mentor: "Soo-Min Lee",
-        mentorAvatar: "/images/mentor2.jpg",
+        mentorAvatar: "/images/Mentor2.jpg",
         subject: "English",
         date: "2024-04-22",
         time: "4:30 PM",
