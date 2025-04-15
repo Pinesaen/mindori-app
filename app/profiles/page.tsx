@@ -1,17 +1,30 @@
+'use client'
+
+import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { NavigationBar } from "@/components/navigation-bar"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Settings, Edit, BookOpen, Award, Calendar, School } from "lucide-react"
-import Image from "next/image"
 
 export default function ProfilesPage() {
+  const [userName, setUserName] = useState("")
+  const router = useRouter()
+
+  useEffect(() => {
+    const name = localStorage.getItem("userName")
+    if (!name) {
+      router.push("/")
+      return
+    }
+    setUserName(name)
+  }, [router])
+
   const userProfile = {
-    name: "Ji-Woo Park",
-    email: "jiwoo.park@example.com",
-    avatar: "/images/Student.jpg",
+    name: userName,
+    email: `${userName.toLowerCase().replace(/\s+/g, ".")}@example.com`,
     school: "Seoul International High School",
-    schoolLogo: "/images/school-logo.png",
     grade: "12th Grade",
     subscription: {
       plan: "Premium",
@@ -25,7 +38,6 @@ export default function ProfilesPage() {
       {
         id: 1,
         mentor: "Min-Ji Kim",
-        mentorAvatar: "/images/Mentor1.jpg",
         subject: "Mathematics",
         date: "2024-04-20",
         time: "3:00 PM",
@@ -33,12 +45,15 @@ export default function ProfilesPage() {
       {
         id: 2,
         mentor: "Soo-Min Lee",
-        mentorAvatar: "/images/Mentor2.jpg",
         subject: "English",
         date: "2024-04-22",
         time: "4:30 PM",
       },
     ],
+  }
+
+  if (!userName) {
+    return null // or a loading spinner
   }
 
   return (
@@ -51,21 +66,11 @@ export default function ProfilesPage() {
         <Card>
           <CardContent className="pt-6">
             <div className="flex items-center space-x-4">
-              <div className="relative">
-                <Avatar className="h-20 w-20">
-                  <AvatarImage src={userProfile.avatar} />
-                  <AvatarFallback>{userProfile.name.substring(0, 2)}</AvatarFallback>
-                </Avatar>
-                <div className="absolute -bottom-2 -right-2 bg-white rounded-full p-1 shadow-sm">
-                  <Image
-                    src={userProfile.schoolLogo}
-                    alt={`${userProfile.school} logo`}
-                    width={24}
-                    height={24}
-                    className="rounded-full"
-                  />
-                </div>
-              </div>
+              <Avatar className="h-20 w-20">
+                <AvatarFallback className="bg-blue-100 text-blue-700">
+                  {userName.split(" ").map(word => word[0]).join("")}
+                </AvatarFallback>
+              </Avatar>
               <div className="flex-1">
                 <h2 className="text-xl font-semibold">{userProfile.name}</h2>
                 <p className="text-gray-500">{userProfile.email}</p>
@@ -142,8 +147,9 @@ export default function ProfilesPage() {
               {userProfile.upcomingSessions.map((session) => (
                 <div key={session.id} className="flex items-center space-x-4">
                   <Avatar className="h-10 w-10">
-                    <AvatarImage src={session.mentorAvatar} />
-                    <AvatarFallback>{session.mentor.substring(0, 2)}</AvatarFallback>
+                    <AvatarFallback className="bg-blue-100 text-blue-700">
+                      {session.mentor.split(" ").map(word => word[0]).join("")}
+                    </AvatarFallback>
                   </Avatar>
                   <div className="flex-1">
                     <p className="font-medium">{session.mentor}</p>
@@ -165,7 +171,7 @@ export default function ProfilesPage() {
         </Button>
       </main>
 
-      <NavigationBar activeTab="profiles" />
+      <NavigationBar />
     </div>
   )
 }
