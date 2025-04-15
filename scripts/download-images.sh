@@ -25,4 +25,12 @@ curl -o public/images/korea-logo.png "https://upload.wikimedia.org/wikipedia/en/
 # To change the school logo:
 # Replace this URL with your preferred logo URL
 # Make sure to keep the same filename (school-logo.png)
-curl -o public/images/school-logo.png "https://upload.wikimedia.org/wikipedia/en/thumb/4/4a/Seoul_International_School_logo.svg/1200px-Seoul_International_School_logo.svg.png" 
+curl -o public/images/school-logo.png "https://upload.wikimedia.org/wikipedia/en/thumb/4/4a/Seoul_International_School_logo.svg/1200px-Seoul_International_School_logo.svg.png"
+
+# Download university campus images
+curl -o public/images/snu-campus.jpg "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&h=600&fit=crop"
+curl -o public/images/yonsei-campus.jpg "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&h=600&fit=crop"
+curl -o public/images/kaist-campus.jpg "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&h=600&fit=crop"
+curl -o public/images/korea-campus.jpg "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&h=600&fit=crop"
+curl -o public/images/study-session.jpg "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&h=600&fit=crop"
+curl -o public/images/application-guide.jpg "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&h=600&fit=crop" 
