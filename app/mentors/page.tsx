@@ -34,7 +34,7 @@ export default function MentorsPage() {
       availability: "Tue-Sat, 3PM-9PM",
       avatar: "/images/Mentor2.jpg",
       achievements: ["CSAT English Perfect Score", "National English Essay Contest Winner"],
-      universityLogo: "/images/Yonsei-logo.png",
+      universityLogo: "/images/yonsei-logo.png",
     },
     {
       id: 3,
