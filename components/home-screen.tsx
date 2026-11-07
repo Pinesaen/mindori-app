@@ -9,7 +9,7 @@ export function HomeScreen() {
   const newsItems = [
     {
       id: 1,
-      title: "Seoul National University Open Day 2024",
+      title: "Seoul National University Open Day 2027",
       description: "Join us for SNU's annual open day on May 15th. Experience campus life, meet professors, and explore academic programs...",
       image: "/images/snu-campus.jpg",
       author: "SNU Admissions",
@@ -49,7 +49,7 @@ export function HomeScreen() {
     },
     {
       id: 6,
-      title: "University Application Timeline 2024",
+      title: "University Application Timeline 2027",
       description: "Complete month-by-month guide for university applications. Important deadlines and checklist included...",
       image: "/images/application-guide.jpg",
       author: "Admissions Guide",
